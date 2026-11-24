@@ -36,4 +36,4 @@ The [native build notes](native/BUILD.md) explain the prepared Capella target. T
 
 ## Licensing and project status
 
-This repository draft is awaiting a project license decision. See [Third-party notices](THIRD-PARTY-NOTICES.md) for the bundled dependencies. This is an independent integration for Eclipse Capella. Capella is a trademark of the Eclipse Foundation.
+Project source is licensed under the MIT License. See [Third-party notices](THIRD-PARTY-NOTICES.md) for the bundled dependencies. This is an independent integration for Eclipse Capella. Capella is a trademark of the Eclipse Foundation.
