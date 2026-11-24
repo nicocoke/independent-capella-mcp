@@ -1,0 +1,1 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><parent><groupId>org.example.capella</groupId><artifactId>independent-mcp-parent</artifactId><version>0.7.1-SNAPSHOT</version></parent><artifactId>capella-target</artifactId><packaging>eclipse-target-definition</packaging></project>

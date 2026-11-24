@@ -1,0 +1,13 @@
+{
+  "database": "/dedicated-relay-data/jobs.sqlite3",
+  "origins": ["https://your-approved-client.example"],
+  "grants": {},
+  "oauth": {
+    "resource": "https://your-relay.example/mcp",
+    "issuer": "https://your-authorization-server.example",
+    "introspection_endpoint": "https://your-authorization-server.example/introspect",
+    "client_id": "configure-with-your-authorization-server",
+    "client_secret_env": "CAPELLA_INTROSPECTION_SECRET",
+    "subjects": {}
+  }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+<extension point="org.eclipse.ui.commands"><command id="org.example.capella.mcp.toggle" name="Start / Stop Independent MCP (Development)"/></extension>
+<extension point="org.eclipse.ui.handlers"><handler commandId="org.example.capella.mcp.toggle" class="org.example.capella.mcp.ToggleHandler"/></extension>
+<extension point="org.eclipse.ui.menus"><menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions"><menu id="org.example.capella.mcp.menu" label="Independent MCP"><command commandId="org.example.capella.mcp.toggle" style="push"/></menu></menuContribution></extension>
+</plugin>

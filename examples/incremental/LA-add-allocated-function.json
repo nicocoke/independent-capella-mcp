@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_function",
+      "id": "inspectSample",
+      "parent": "native_f2f9a783-63e9-4b81-86ac-20d9701403e6",
+      "name": "Inspect sample"
+    },
+    {
+      "op": "allocate_function",
+      "id": "inspectAllocation",
+      "function": "inspectSample",
+      "component": "native_49b076ee-444d-4977-a6d9-48e2c9b6543e"
+    }
+  ]
+}

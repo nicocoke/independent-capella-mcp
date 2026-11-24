@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_component",
+      "id": "sensor",
+      "name": "Sensor",
+      "parent": "logical-system"
+    },
+    {
+      "op": "create_component",
+      "id": "controller",
+      "name": "Controller",
+      "parent": "logical-system"
+    },
+    {
+      "op": "create_function",
+      "id": "measure",
+      "name": "Measure Temperature",
+      "parent": "root-function"
+    },
+    {
+      "op": "create_function",
+      "id": "monitor",
+      "name": "Monitor Temperature",
+      "parent": "root-function"
+    },
+    {
+      "op": "allocate_function",
+      "id": "allocation-measure",
+      "function": "measure",
+      "component": "sensor"
+    },
+    {
+      "op": "allocate_function",
+      "id": "allocation-monitor",
+      "function": "monitor",
+      "component": "controller"
+    },
+    {
+      "op": "connect_functions",
+      "id": "temperature",
+      "name": "Temperature",
+      "source": "measure",
+      "target": "monitor"
+    },
+    {
+      "op": "create_diagram",
+      "id": "monitoring-lab",
+      "name": "Synthetic Monitoring LAB",
+      "kind": "LAB",
+      "target": "logical-system"
+    },
+    {
+      "op": "show_element",
+      "id": "view-sensor",
+      "diagram": "monitoring-lab",
+      "element": "sensor"
+    },
+    {
+      "op": "show_element",
+      "id": "view-controller",
+      "diagram": "monitoring-lab",
+      "element": "controller"
+    },
+    {
+      "op": "show_element",
+      "id": "view-measure",
+      "diagram": "monitoring-lab",
+      "element": "measure"
+    },
+    {
+      "op": "show_element",
+      "id": "view-monitor",
+      "diagram": "monitoring-lab",
+      "element": "monitor"
+    },
+    {
+      "op": "show_element",
+      "id": "view-temperature",
+      "diagram": "monitoring-lab",
+      "element": "temperature"
+    }
+  ]
+}

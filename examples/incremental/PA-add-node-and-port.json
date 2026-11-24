@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_node_component",
+      "id": "gateway",
+      "parent": "native_9e46b1f0-2cb1-4c51-9fd5-90aaddf1c45c",
+      "name": "Data gateway"
+    },
+    {
+      "op": "create_physical_port",
+      "id": "uplink",
+      "parent": "gateway",
+      "name": "Uplink"
+    }
+  ]
+}

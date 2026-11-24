@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_system_actor",
+      "id": "maintainer",
+      "parent": "native_5e532564-7711-4d7e-a762-129f71bc637c",
+      "name": "Maintainer"
+    },
+    {
+      "op": "show_element",
+      "id": "maintainerView",
+      "diagram": "diagram__FGHf0OgSEfG-YoYYQlL-pA",
+      "element": "maintainer"
+    }
+  ]
+}

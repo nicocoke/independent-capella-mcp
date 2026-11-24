@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Independent Capella MCP Native Core (Development)
+Bundle-SymbolicName: org.example.capella.mcp;singleton:=true
+Bundle-Version: 0.7.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.transaction,
+ org.eclipse.emf.validation,
+ org.eclipse.sirius,
+ org.eclipse.sirius.diagram,
+ org.eclipse.sirius.ui,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.gmf.runtime.notation,
+ org.eclipse.swt,
+ org.eclipse.ui,
+ org.eclipse.jface,
+ com.google.gson;bundle-version="[2.10.1,3.0.0)",
+ org.polarsys.capella.core.data.gen,
+ org.polarsys.capella.core.model.handler,
+ org.polarsys.capella.core.model.helpers
+Export-Package: org.example.capella.mcp
+

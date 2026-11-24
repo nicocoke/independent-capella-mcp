@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_activity",
+      "id": "review",
+      "parent": "native_dac97e71-4292-4ddf-9e7b-c837d0910014",
+      "name": "Review measurement"
+    },
+    {
+      "op": "allocate_function",
+      "id": "reviewOwner",
+      "function": "review",
+      "component": "native_bbd7ba91-8b2d-4ba8-934f-07969f0858d4"
+    }
+  ]
+}

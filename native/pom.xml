@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+<modelVersion>4.0.0</modelVersion>
+<groupId>org.example.capella</groupId><artifactId>independent-mcp-parent</artifactId><version>0.7.1-SNAPSHOT</version><packaging>pom</packaging>
+<properties><tycho.version>4.0.8</tycho.version><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+<modules><module>target-platform</module><module>org.example.capella.mcp</module><module>feature</module><module>repository</module></modules>
+<build><plugins>
+<plugin><groupId>org.eclipse.tycho</groupId><artifactId>tycho-maven-plugin</artifactId><version>${tycho.version}</version><extensions>true</extensions></plugin>
+<plugin><groupId>org.eclipse.tycho</groupId><artifactId>target-platform-configuration</artifactId><version>${tycho.version}</version><configuration>
+<target><artifact><groupId>org.example.capella</groupId><artifactId>capella-target</artifactId><version>${project.version}</version></artifact></target>
+<environments><environment><os>win32</os><ws>win32</ws><arch>x86_64</arch></environment></environments>
+</configuration></plugin>
+</plugins></build>
+<profiles><profile><id>capella-7.1-local</id><activation><property><name>capella71.target</name></property></activation><build><plugins><plugin><groupId>org.eclipse.tycho</groupId><artifactId>target-platform-configuration</artifactId><configuration><target combine.self="override"><file>${capella71.target}</file></target></configuration></plugin></plugins></build></profile></profiles>
+</project>

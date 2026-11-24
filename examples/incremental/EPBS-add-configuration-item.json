@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_configuration_item",
+      "id": "unit",
+      "parent": "native_ba604ad5-e6a8-4d17-a5cf-bdc6af5bb453",
+      "name": "Serviceable unit",
+      "kind": "HWCI"
+    },
+    {
+      "op": "show_element",
+      "id": "unitView",
+      "diagram": "diagram__FOEh8OgSEfG-YoYYQlL-pA",
+      "element": "unit"
+    }
+  ]
+}

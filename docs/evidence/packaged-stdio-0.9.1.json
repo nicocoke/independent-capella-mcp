@@ -1,0 +1,16 @@
+{
+  "fixture": "three packaged stdio clients, no connector",
+  "checks": [
+    "Chat initialized",
+    "Chat has six tools and inspection filters",
+    "Cowork initialized",
+    "Cowork has six tools and inspection filters",
+    "Code initialized",
+    "Code has six tools and inspection filters",
+    "Owner exposes private connection path",
+    "First survivor acquires broker after abrupt exit",
+    "Last survivor acquires broker after clean exit",
+    "Unpaired final client has no model inventory",
+    "Final EOF removes private connection profile"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "model_id": "native-model",
+  "base_revision": 0,
+  "operations": [
+    {
+      "op": "create_function",
+      "id": "checkSample",
+      "name": "Check sample",
+      "parent": "native_b6eae8d2-8079-41bb-954a-f85eaf3f7037"
+    },
+    {
+      "op": "show_element",
+      "id": "checkView",
+      "diagram": "diagram__FOn7kOgSEfG-YoYYQlL-pA",
+      "element": "checkSample"
+    }
+  ]
+}
