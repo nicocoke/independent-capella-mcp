@@ -25,7 +25,7 @@ def main():
         for role in ("Chat", "Cowork", "Code"):
             client = Client(args.extension.resolve(), trial, role)
             clients.append(client)
-            check(role + " initialized", client.initialize()["serverInfo"]["version"] == "0.9.1")
+            check(role + " initialized", client.initialize()["serverInfo"]["version"] == "0.9.2")
             tools = {t["name"]: t for t in client.request("tools/list")["tools"]}
             check(role + " has six tools and inspection filters",
                   len(tools) == 6 and "links_to" in tools["capella_snapshot"]["inputSchema"]["properties"])

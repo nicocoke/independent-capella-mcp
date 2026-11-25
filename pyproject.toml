@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "independent-capella-mcp"
-version = "0.9.1"
+version = "0.9.2"
 description = "Independent Capella MCP and explicitly enabled native relay"
 requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools]
 packages = ["capella_groundwork", "relay"]
-py-modules = ["development_http", "offline_stdio", "local_bridge", "local_stdio"]
+py-modules = ["development_http", "offline_stdio", "local_bridge", "local_stdio", "local_reconcile"]

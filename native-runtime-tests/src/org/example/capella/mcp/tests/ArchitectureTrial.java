@@ -218,6 +218,84 @@ final class ArchitectureTrial {
         }
     }
 
+    void synchronizedStateMachine(OperationalAnalysis layer) {
+        var factory = org.polarsys.capella.core.data.capellacommon.CapellacommonFactory.eINSTANCE;
+        var entity = OaFactory.eINSTANCE.createEntity();
+        var machine = factory.createStateMachine();
+        var root = factory.createRegion();
+        var parent = factory.createState();
+        var unrelated = factory.createRegion();
+        var outside = factory.createState();
+        var domain = session.getTransactionalEditingDomain();
+        domain.getCommandStack().execute(new RecordingCommand(domain) {
+            @Override protected void doExecute() {
+                layer.getOwnedEntityPkg().getOwnedEntities().add(entity);
+                entity.setName("Synthetic mission owner");
+                entity.getOwnedStateMachines().add(machine);
+                machine.setName("Synthetic mission phases");
+                machine.getOwnedRegions().add(root);
+                root.setName("Mission root");
+                root.getOwnedStates().add(parent);
+                parent.setName("Operational mission");
+                machine.getOwnedRegions().add(unrelated);
+                unrelated.setName("Unrelated region");
+                unrelated.getOwnedStates().add(outside);
+                outside.setName("Unrelated state");
+            }
+        });
+        try (var c = new NativeController(session, layer)) {
+            controller = c;
+            var output = apply(cmd("sirius_representation", "diagram", "kind", "MSM", "target", ref(root),
+                                   "name", "Synchronized synthetic MSM"));
+            String diagramRef = output.get("diagram").getAsString();
+            var diagram = DialectManager.INSTANCE.getAllLoadedRepresentations(session).stream()
+                .filter(rep -> rep.getName().equals("Synchronized synthetic MSM"))
+                .map(DDiagram.class::cast).findFirst().orElseThrow();
+            var nested = List.of(factory.createRegion(), factory.createRegion());
+            domain.getCommandStack().execute(new RecordingCommand(domain) {
+                @Override protected void doExecute() {
+                    diagram.setSynchronized(true);
+                    parent.getOwnedRegions().addAll(nested);
+                    nested.get(0).setName("Primary execution");
+                    nested.get(1).setName("Concurrent execution");
+                }
+            });
+            var members = new ArrayList<JsonPrimitive>();
+            for (int i = 0; i < 5; i++) {
+                String owner = ref(nested.get(i % nested.size()));
+                var pair = apply(cmd("create_state", "from", "parent", owner, "name", "Phase " + i + " start"),
+                                 cmd("create_state", "to", "parent", owner, "name", "Phase " + i + " finish"),
+                                 cmd("create_transition", "transition", "source", "from", "target", "to", "name", "Handover " + i));
+                for (var key : List.of("from", "to", "transition")) members.add(pair.getAsJsonPrimitive(key));
+            }
+            domain.getCommandStack().execute(new RecordingCommand(domain) {
+                @Override protected void doExecute() {
+                    DialectManager.INSTANCE.refresh(diagram, new NullProgressMonitor());
+                }
+            });
+            var represented = row(diagramRef).getAsJsonArray("represented");
+            check("Synchronized OA MSM already displays ten nested states and five transitions",
+                  members.stream().allMatch(represented::contains));
+            var before = List.copyOf(diagram.getDiagramElements());
+            var revision = c.snapshot().get("revision");
+            int editors = openEditorCount();
+            var commands = new ArrayList<JsonObject>();
+            for (int i = 0; i < members.size(); i++)
+                commands.add(cmd("sirius_existing_element_view", "member" + i, "diagram", diagramRef,
+                                 "element", members.get(i).getAsString()));
+            var receipt = receipt(commands.toArray(JsonObject[]::new));
+            check("Existing nested MSM views return success without saving or advancing revision",
+                  "succeeded_unsaved".equals(receipt.get("status").getAsString()) &&
+                  !receipt.getAsJsonObject("result").get("saved").getAsBoolean() && revision.equals(c.snapshot().get("revision")));
+            check("Nested MSM no-op preserves all view identities and editor count",
+                  before.equals(List.copyOf(diagram.getDiagramElements())) && editors == openEditorCount());
+            var outsideReceipt = receipt(cmd("sirius_existing_element_view", "outside", "diagram", diagramRef, "element", ref(outside)));
+            check("MSM still rejects states from outside its region subtree",
+                  !"succeeded_unsaved".equals(outsideReceipt.get("status").getAsString()) &&
+                  before.equals(List.copyOf(diagram.getDiagramElements())));
+        }
+    }
+
     void trace(org.polarsys.capella.core.data.capellamodeller.SystemEngineering model) {
         try (var c = new NativeController(session, model)) {
             controller = c;

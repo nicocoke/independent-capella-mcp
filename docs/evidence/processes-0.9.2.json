@@ -1,0 +1,106 @@
+{
+  "status": "passed",
+  "fixture": "synthetic connector, no Capella",
+  "checks": [
+    {
+      "check": "simultaneous MCP process discovers six tools",
+      "passed": true
+    },
+    {
+      "check": "simultaneous MCP process reports same pairing path",
+      "passed": true
+    },
+    {
+      "check": "simultaneous MCP process discovers six tools",
+      "passed": true
+    },
+    {
+      "check": "simultaneous MCP process reports same pairing path",
+      "passed": true
+    },
+    {
+      "check": "simultaneous MCP process discovers six tools",
+      "passed": true
+    },
+    {
+      "check": "simultaneous MCP process reports same pairing path",
+      "passed": true
+    },
+    {
+      "check": "closing a secondary process keeps broker and profile",
+      "passed": true
+    },
+    {
+      "check": "follower reads owner's native inventory",
+      "passed": true
+    },
+    {
+      "check": "concurrent client retries share exactly one job",
+      "passed": true
+    },
+    {
+      "check": "queued edit is claimed only once",
+      "passed": true
+    },
+    {
+      "check": "surviving process takes ownership and preserves executing job",
+      "passed": true
+    },
+    {
+      "check": "takeover expires stale snapshot",
+      "passed": true
+    },
+    {
+      "check": "takeover never reclaims executing edit",
+      "passed": true
+    },
+    {
+      "check": "original lease receipt reconciles after owner crash",
+      "passed": true
+    },
+    {
+      "check": "replacement client sees same persisted receipt",
+      "passed": true
+    },
+    {
+      "check": "cross-process duplicate submit does not queue another edit",
+      "passed": true
+    },
+    {
+      "check": "follower promotes after clean owner EOF",
+      "passed": true
+    },
+    {
+      "check": "follower can read despite uncertain edit",
+      "passed": true
+    },
+    {
+      "check": "follower identifies the blocking job",
+      "passed": true
+    },
+    {
+      "check": "new submission refused instead of sitting queued",
+      "passed": true
+    },
+    {
+      "check": "last owner EOF removes profile",
+      "passed": true
+    },
+    {
+      "check": "review persists across broker shutdown",
+      "passed": true
+    },
+    {
+      "check": "review preserves the original outcome",
+      "passed": true
+    },
+    {
+      "check": "review does not replay earlier or denied edits",
+      "passed": true
+    },
+    {
+      "check": "fresh edit is claimable after review",
+      "passed": true
+    }
+  ]
+}

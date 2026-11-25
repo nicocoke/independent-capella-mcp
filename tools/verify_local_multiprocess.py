@@ -167,8 +167,37 @@ def main():
             check("cross-process duplicate submit does not queue another edit", replacement.tool("capella_submit", submission) == finished and connector("/connector/claim", {})["job"] is None)
             follower.close()
             check("follower promotes after clean owner EOF", replacement.tool("capella_job", {"job_id": jobs[0]["job_id"]}) == finished)
+            connector("/connector/snapshot", snapshot)
+            failed_job = replacement.tool("capella_submit", submission | {"request_id": "synthetic-uncertain"})
+            claim = connector("/connector/claim", {})["job"]
+            uncertain = connector("/connector/result", {"job_id": failed_job["job_id"], "lease": claim["lease"],
+                  "status": "unknown_outcome", "result": {"error": "BasicIndexOutOfBoundsException"}})
+            observer = client("observer")
+            check("follower can read despite uncertain edit", observer.tool("capella_snapshot") == snapshot)
+            check("follower identifies the blocking job", observer.tool("capella_connection")["edit_blocker"] ==
+                  {"job_id": failed_job["job_id"], "status": "unknown_outcome"})
+            denied = observer.request("tools/call", {"name": "capella_submit", "arguments":
+                  submission | {"request_id": "new-while-blocked"}})
+            check("new submission refused instead of sitting queued", denied["isError"] and
+                  failed_job["job_id"] in denied["content"][0]["text"])
+            observer.close()
             replacement.close()
             check("last owner EOF removes profile", not profile.exists())
+            # Exercise the packaged review function against only this synthetic journal.
+            subprocess.run([str(extension / "runtime/python.exe"), "-I", "-B", "-c",
+                            "from pathlib import Path; import sys; from local_reconcile import record_review; "
+                            "record_review(Path(sys.argv[1]), sys.argv[2])",
+                            str(trial / "state"), failed_job["job_id"]], cwd=trial, check=True, timeout=15)
+            recovered = client("recovery")
+            connector("/connector/snapshot", snapshot)
+            check("review persists across broker shutdown", recovered.tool("capella_connection")["edit_blocker"] is None)
+            history = recovered.tool("capella_job", {"job_id": failed_job["job_id"]})
+            check("review preserves the original outcome", history["status"] == uncertain["status"] and
+                  history["result"] == uncertain["result"] and "operator_reviewed_at" in history)
+            check("review does not replay earlier or denied edits", connector("/connector/claim", {})["job"] is None)
+            new_job = recovered.tool("capella_submit", submission | {"request_id": "fresh-after-review"})
+            check("fresh edit is claimable after review", connector("/connector/claim", {})["job"]["job_id"] == new_job["job_id"])
+            recovered.close()
         report["status"] = "passed"
     except Exception as failure:
         report["error"] = repr(failure)

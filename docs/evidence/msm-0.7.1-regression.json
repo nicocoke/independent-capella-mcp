@@ -1,0 +1,31 @@
+{
+  "capella_version": "7.1.0.202606231255",
+  "mcp_bundle_version": "0.7.1.202611241414",
+  "checks": [
+    {
+      "check": "MSM connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "MSM discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "MSM represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "MSM displays transition",
+      "passed": true
+    },
+    {
+      "check": "Synchronized OA MSM already displays ten nested states and five transitions",
+      "passed": true
+    },
+    {
+      "check": "Existing nested MSM views return success without saving or advancing revision",
+      "passed": false
+    }
+  ],
+  "error": "IllegalArgumentException: Select an element in the diagram region"
+}

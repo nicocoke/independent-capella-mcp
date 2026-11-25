@@ -71,6 +71,21 @@ class LocalTests(unittest.TestCase):
         self.ledger.bind(SCOPE, CONNECTOR, self.snapshot)
         self.assertTrue(tools.call("capella_connection", {})["structuredContent"]["connected"])
 
+    def test_connection_reports_edit_gate_after_native_exception(self):
+        self.ledger.bind(SCOPE, CONNECTOR, self.snapshot)
+        job = self.ledger.submit(SCOPE, "request-A", {})
+        claim = dispatch(self.ledger, "/connector/claim", {})["job"]
+        receipt = {"job_id": job["job_id"], "lease": claim["lease"], "status": "unknown_outcome",
+                   "result": {"error": "BasicIndexOutOfBoundsException"}}
+        dispatch(self.ledger, "/connector/result", receipt)
+        tools = LocalTools(SimpleNamespace(ledger=self.ledger, profile=Path("connection.json")))
+        state = tools.call("capella_connection", {})["structuredContent"]
+        self.assertTrue(state["connected"])
+        self.assertEqual({"job_id": job["job_id"], "status": "unknown_outcome"}, state["edit_blocker"])
+        self.assertTrue(tools.call("capella_snapshot", {"limit": 1})["structuredContent"]["elements"])
+        self.assertEqual(receipt["result"], tools.call("capella_job", {"job_id": job["job_id"]})["structuredContent"]["result"])
+        self.assertIsNone(dispatch(self.ledger, "/connector/claim", {})["job"])
+
     def test_live_protocol_injection_keeps_stdio_clean(self):
         tools = LocalTools(SimpleNamespace(ledger=self.ledger, profile=Path("connection.json")))
         messages = [{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {

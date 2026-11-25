@@ -49,17 +49,58 @@ class RelayTests(unittest.TestCase):
     def test_unknown_outcome_blocks_new_edits(self):
         job, _ = self.submit()
         self.store.claim("project-A", "connector-A")
-        self.submit("request-B")
+        queued, args = self.submit("request-B")
+        self.assertEqual({"job_id": job["job_id"], "status": "executing"}, queued["blocked_by"])
         self.now += 121
+        self.store.bind("project-A", "connector-A", self.snapshot)
+        blocker = {"job_id": job["job_id"], "status": "unknown_outcome"}
+        self.assertEqual(blocker, self.store.get("project-A", queued["job_id"])["blocked_by"])
+        self.assertEqual(blocker, self.service.call("capella_submit", args)["structuredContent"]["blocked_by"])
+        denied = self.service.call("capella_submit", args | {"request_id": "request-C"})
+        self.assertTrue(denied["isError"])
+        self.assertIn(job["job_id"] + " (unknown_outcome)", denied["content"][0]["text"])
         self.assertIsNone(self.store.claim("project-A", "connector-A"))
         self.assertEqual("unknown_outcome", self.store.get("project-A", job["job_id"])["status"])
+        self.assertEqual("cancelled", self.store.cancel("project-A", queued["job_id"])["status"])
+        self.assertEqual(blocker, self.store.edit_blocker("project-A"))
+        self.assertIsNone(self.store.edit_blocker("project-B"))
 
     def test_late_receipt_reconciles_expired_lease(self):
         job, _ = self.submit()
         claimed = self.store.claim("project-A", "connector-A")
         self.now += 121
         self.store.claim("project-A", "connector-A")
+        self.assertEqual("unknown_outcome", self.store.edit_blocker("project-A")["status"])
         self.assertEqual("succeeded_unsaved", self.store.finish("project-A", "connector-A", job["job_id"], claimed["lease"], "succeeded_unsaved", {})["status"])
+        self.assertIsNone(self.store.edit_blocker("project-A"))
+
+    def test_operator_review_preserves_receipt_and_never_unblocks_waiting_queue(self):
+        job, original_args = self.submit()
+        claim = self.store.claim("project-A", "connector-A")
+        queued, _ = self.submit("request-B")
+        receipt = {"error": "BasicIndexOutOfBoundsException"}
+        self.store.finish("project-A", "connector-A", job["job_id"], claim["lease"], "unknown_outcome", receipt)
+        with self.assertRaisesRegex(Conflict, "queued"):
+            self.store.record_operator_review("project-A", job["job_id"])
+        self.store.cancel("project-A", queued["job_id"])
+        self.store.record_operator_review("project-A", job["job_id"])
+        self.assertIsNone(self.store.edit_blocker("project-A"))
+        history = self.service.call("capella_submit", original_args)["structuredContent"]
+        self.assertEqual(("unknown_outcome", receipt, self.now),
+                         (history["status"], history["result"], history["operator_reviewed_at"]))
+        self.assertIsNone(self.store.claim("project-A", "connector-A"))
+        new, _ = self.submit("new-plan")
+        self.assertEqual(new["job_id"], self.store.claim("project-A", "connector-A")["job_id"])
+
+    def test_new_uncertain_receipt_requires_its_own_review(self):
+        job, _ = self.submit()
+        claim = self.store.claim("project-A", "connector-A")
+        self.now += 121
+        self.store.edit_blocker("project-A")
+        self.store.record_operator_review("project-A", job["job_id"])
+        self.assertIsNone(self.store.edit_blocker("project-A"))
+        self.store.finish("project-A", "connector-A", job["job_id"], claim["lease"], "unknown_outcome", {"error": "NativeException"})
+        self.assertEqual(job["job_id"], self.store.edit_blocker("project-A")["job_id"])
 
     def test_scope_and_connector_isolation(self):
         job, _ = self.submit()

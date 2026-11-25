@@ -1,0 +1,1099 @@
+{
+  "capella_version": "7.1.0.202606231255",
+  "mcp_bundle_version": "0.7.2.202611251139",
+  "status": "passed",
+  "checks": [
+    {
+      "check": "runtime matches requested Capella version",
+      "passed": true
+    },
+    {
+      "check": "workspace starts empty",
+      "passed": true
+    },
+    {
+      "check": "new native session opens",
+      "passed": true
+    },
+    {
+      "check": "native logical architecture exists",
+      "passed": true
+    },
+    {
+      "check": "all thirteen aliases created",
+      "passed": true
+    },
+    {
+      "check": "components contained by logical system",
+      "passed": true
+    },
+    {
+      "check": "functions contained by root function",
+      "passed": true
+    },
+    {
+      "check": "both allocations point to functions",
+      "passed": true
+    },
+    {
+      "check": "exchange connects owned native ports",
+      "passed": true
+    },
+    {
+      "check": "diagram contains exchange edge",
+      "passed": true
+    },
+    {
+      "check": "diagram contains both component Parts",
+      "passed": true
+    },
+    {
+      "check": "native diagram exported",
+      "passed": true
+    },
+    {
+      "check": "unsaved manual edit increments revision",
+      "passed": true
+    },
+    {
+      "check": "stale revision rejected",
+      "passed": true
+    },
+    {
+      "check": "late native operation fails",
+      "passed": true
+    },
+    {
+      "check": "late failure rolls back created component",
+      "passed": true
+    },
+    {
+      "check": "JSON boundary reports unsaved native success",
+      "passed": true
+    },
+    {
+      "check": "JSON boundary creates exactly one component",
+      "passed": true
+    },
+    {
+      "check": "identical native retry returns same receipt",
+      "passed": true
+    },
+    {
+      "check": "native retry does not duplicate component",
+      "passed": true
+    },
+    {
+      "check": "wrong native epoch rejected",
+      "passed": true
+    },
+    {
+      "check": "Pre-existing LAB discovered on fresh pairing",
+      "passed": true
+    },
+    {
+      "check": "Existing layout captured",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "functional_exchange_with_ports committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "New connection visible in previously paired LAB",
+      "passed": true
+    },
+    {
+      "check": "Existing views and layout constraints preserved",
+      "passed": true
+    },
+    {
+      "check": "Unrelated component name and owner preserved",
+      "passed": true
+    },
+    {
+      "check": "Rebound function allocated to pre-existing component",
+      "passed": true
+    },
+    {
+      "check": "connect_components committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LAB displays port-based component exchange",
+      "passed": true
+    },
+    {
+      "check": "logical_component_with_part committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Moved object excluded on refreshed subtree publication",
+      "passed": true
+    },
+    {
+      "check": "Old reference cannot write into moved branch at current revision",
+      "passed": true
+    },
+    {
+      "check": "Four additional architecture roots in fixture",
+      "passed": true
+    },
+    {
+      "check": "create_entity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Interaction source is activity",
+      "passed": true
+    },
+    {
+      "check": "create_operational_actor committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Operational actor flag present",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OEB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "OEB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OEB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_system_actor committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "System actor and function retain distinct IDs",
+      "passed": true
+    },
+    {
+      "check": "reassign_allocation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Existing allocation identity and new owner",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SAB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "SAB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SAB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_system_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "functional_exchange_with_ports committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SAB contains new functional exchange",
+      "passed": true
+    },
+    {
+      "check": "connect_components committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SAB displays port-based component exchange",
+      "passed": true
+    },
+    {
+      "check": "create_node_component committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Same-name physical nodes are individually addressable",
+      "passed": true
+    },
+    {
+      "check": "deploy_behavior committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Deployment points to behavior Part",
+      "passed": true
+    },
+    {
+      "check": "Physical link has two physical port references",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PAB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "PAB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PAB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PAB contains cable and deployed behavior",
+      "passed": true
+    },
+    {
+      "check": "create_physical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PAB contains physical function exchange",
+      "passed": true
+    },
+    {
+      "check": "create_configuration_item committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "CI kind persisted",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "CIBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "CIBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "CIBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LFBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "LFBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LFBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "LFBD layout captured",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LFBD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "LFBD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LFBD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "LFBD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "logical_component_with_part committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LCBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "LCBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LCBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "LCBD layout captured",
+      "passed": true
+    },
+    {
+      "check": "logical_component_with_part committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LCBD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "LCBD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LCBD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "LCBD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "create_activity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OABD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "OABD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OABD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "OABD layout captured",
+      "passed": true
+    },
+    {
+      "check": "create_activity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OABD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "OABD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OABD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "OABD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "create_system_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SFBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "SFBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SFBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "SFBD layout captured",
+      "passed": true
+    },
+    {
+      "check": "create_system_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SFBD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "SFBD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SFBD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "SFBD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "create_physical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PFBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "PFBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PFBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "PFBD layout captured",
+      "passed": true
+    },
+    {
+      "check": "create_physical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PFBD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "PFBD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PFBD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "PFBD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LDFB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "LDFB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LDFB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LDFB native edge persisted in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "LDFB preserves existing views and avoids duplicate edge",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "MSM connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "MSM discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "MSM represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_transition committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "MSM displays transition",
+      "passed": true
+    },
+    {
+      "check": "logical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "FCD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "FCD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "FCD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "FCD displays chain link",
+      "passed": true
+    },
+    {
+      "check": "create_activity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAIB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "OAIB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAIB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_activity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAIB native edge persisted in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAIB preserves existing views and avoids duplicate edge",
+      "passed": true
+    },
+    {
+      "check": "create_entity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "OAB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OAB displays allocated activity",
+      "passed": true
+    },
+    {
+      "check": "create_activity committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OPD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "OPD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OPD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OPD displays chain link",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "create_state committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "Synchronized OA MSM already displays ten nested states and five transitions",
+      "passed": true
+    },
+    {
+      "check": "Existing nested MSM views return success without saving or advancing revision",
+      "passed": true
+    },
+    {
+      "check": "Nested MSM no-op preserves all view identities and editor count",
+      "passed": true
+    },
+    {
+      "check": "MSM still rejects states from outside its region subtree",
+      "passed": true
+    },
+    {
+      "check": "create_system_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SDFB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "SDFB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SDFB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_system_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SDFB native edge persisted in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "SDFB preserves existing views and avoids duplicate edge",
+      "passed": true
+    },
+    {
+      "check": "create_physical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PDFB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "PDFB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PDFB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_physical_function committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PDFB native edge persisted in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PDFB preserves existing views and avoids duplicate edge",
+      "passed": true
+    },
+    {
+      "check": "create_node_component committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PCBD connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "PCBD discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PCBD represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "PCBD layout captured",
+      "passed": true
+    },
+    {
+      "check": "create_node_component committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PCBD publishes newly displayed child",
+      "passed": true
+    },
+    {
+      "check": "PCBD uses a native containment edge from child to parent",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "PCBD repeated show preserves views and layout",
+      "passed": true
+    },
+    {
+      "check": "PCBD rejects same-layer object outside the diagram root",
+      "passed": true
+    },
+    {
+      "check": "create_configuration_item committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "sirius_representation committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "EAB connector creation leaves workbench editors unchanged",
+      "passed": true
+    },
+    {
+      "check": "EAB discoverable by descriptor ID",
+      "passed": true
+    },
+    {
+      "check": "sirius_existing_element_view committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "EAB represented element in existing diagram",
+      "passed": true
+    },
+    {
+      "check": "create_operational_capability committed unsaved (\"succeeded_unsaved\")",
+      "passed": true
+    },
+    {
+      "check": "OA-to-SA capability trace publishes explicit endpoint",
+      "passed": true
+    },
+    {
+      "check": "OA capability publishes operational process involvement",
+      "passed": true
+    },
+    {
+      "check": "SA-to-LA function trace publishes explicit endpoint",
+      "passed": true
+    },
+    {
+      "check": "fixture saved by explicit test harness",
+      "passed": true
+    },
+    {
+      "check": "saved synthetic session reopens",
+      "passed": true
+    },
+    {
+      "check": "native LAB survives save and reopen",
+      "passed": true
+    },
+    {
+      "check": "LFBD hierarchy survives save and reopen",
+      "passed": true
+    },
+    {
+      "check": "LCBD hierarchy survives save and reopen",
+      "passed": true
+    },
+    {
+      "check": "SFBD hierarchy survives save and reopen",
+      "passed": true
+    },
+    {
+      "check": "PFBD hierarchy survives save and reopen",
+      "passed": true
+    },
+    {
+      "check": "OABD hierarchy survives save and reopen",
+      "passed": true
+    }
+  ]
+}

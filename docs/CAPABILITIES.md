@@ -1,4 +1,4 @@
-# Capability matrix for 0.9.1
+# Capability matrix for 0.9.2
 
 | New operation | Scope |
 |---|---|
@@ -16,7 +16,7 @@ Published trace results are bounded by the paired inventory. Use the returned re
 | Operational Entity Blank (OAB) | Entity or entity package | Show entities and actors, uniquely allocated activities, and direct interactions |
 | Functional Chain Description (FCD) | Existing Capella functional chain accepted by the viewpoint | Add function and exchange involvements and show their nodes and links |
 | Operational Process Description (OPD) | Existing operational process | Add activity and interaction involvements and show their nodes and links |
-| Mode State Machine (MSM) | Existing state-machine region | Add and show states, modes and transitions within the region |
+| Mode State Machine (MSM) | Existing state-machine region | Insert directly owned states, modes and transitions. Plug-in 0.7.2 reuses an existing view in the Region subtree, including nested views projected by Sirius. |
 | Functional Scenario (FS) | Existing functional scenario accepted by the viewpoint | Native diagram creation |
 | Activity Interaction Scenario (AIS) | Existing operational activity scenario accepted by the viewpoint | Native diagram creation |
 

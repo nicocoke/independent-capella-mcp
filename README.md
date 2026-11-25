@@ -5,6 +5,8 @@ A local integration that lets Claude Desktop read, edit and create native diagra
 **Preview · Windows x64 · Capella 7.1.0**  
 Claude Desktop starts the MCP process locally. In Capella, you choose the model and start the connector. Claude can prepare and submit changes through the MCP tools, and you choose whether to save in Capella.
 
+The current source pairs Claude Desktop extension **0.9.2** with Capella plug-in **0.7.2**.
+
 ## What it supports
 
 - Read model elements, relationships and diagrams by stable reference.
@@ -15,10 +17,15 @@ Claude Desktop starts the MCP process locally. In Capella, you choose the model 
 
 See the [capability matrix](docs/CAPABILITIES.md) for supported operations and prerequisites.
 
-## Try it
+## Updates
 
-1. From the release assets, get the Windows `.mcpb`, the matching Capella update-site ZIP and the optional synthetic project.
-2. Install the Capella feature and Claude extension using the [installation guide](docs/CLAUDE-DESKTOP.md).
+- **Claude extension 0.9.2** identifies the job blocking edits after an uncertain outcome. The [local review procedure](docs/RECOVER-EDIT.md) preserves the original receipt and lets you resume after checking the affected model in Capella.
+- **Capella plug-in 0.7.2** reuses existing Mode State Machine views, including nested states and transitions that Sirius already displays. See the [native update guide](docs/NATIVE-0.7.2.md).
+
+## Try a published build
+
+1. From [Releases](https://github.com/nicocoke/independent-capella-mcp/releases), choose a release and get its Windows `.mcpb`, the matching Capella update-site ZIP and the optional synthetic project.
+2. Install the Capella feature and Claude extension using the instructions for that release. The [source-branch installation guide](docs/CLAUDE-DESKTOP.md) covers the current source versions.
 3. Open a disposable model. Select **System Engineering** to pair across architecture levels, or select one architecture to limit the scope.
 4. In Claude, ask “Read a snapshot of the paired Capella model and list the diagrams with their names and aliases.”
 

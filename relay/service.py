@@ -18,7 +18,7 @@ def native_catalogue():
         {"name": "capella_submit", "description": "Queue an explicitly requested native edit. Result is a job, not edit completion.",
          "inputSchema": _object({"plan": plan_schema(native=True), "preview_digest": {"type": "string"},
                                  "request_id": {"type": "string"}}, ["plan", "preview_digest", "request_id"])},
-        {"name": "capella_job", "description": "Read execution outcome; success may be unsaved.",
+        {"name": "capella_job", "description": "Read execution outcome or the job blocking a queued edit. Success may be unsaved.",
          "inputSchema": _object({"job_id": {"type": "string"}}, ["job_id"])},
         {"name": "capella_cancel", "description": "Cancel a queued job; cannot undo executing edits.",
          "inputSchema": _object({"job_id": {"type": "string"}}, ["job_id"])}]

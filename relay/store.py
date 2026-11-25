@@ -15,6 +15,10 @@ class Conflict(ValueError):
     pass
 
 
+_EDIT_BLOCKING = """scope=? AND (status='executing' OR (status='unknown_outcome' AND NOT EXISTS
+    (SELECT 1 FROM job_reviews WHERE job_id=jobs.id AND receipt=COALESCE(jobs.result,''))))"""
+
+
 class Ledger:
     def __init__(self, connection, clock=time.time):
         self.db, self.clock, self.lock = connection, clock, threading.RLock()
@@ -29,6 +33,9 @@ class Ledger:
           lease TEXT, deadline REAL, result TEXT, created REAL NOT NULL,
           UNIQUE(scope, request_key));
         CREATE INDEX IF NOT EXISTS pending_jobs ON jobs(scope,status,created);
+        CREATE TABLE IF NOT EXISTS job_reviews (
+          job_id TEXT NOT NULL REFERENCES jobs(id), receipt TEXT NOT NULL,
+          reviewed_at REAL NOT NULL, PRIMARY KEY(job_id,receipt));
         ''')
 
     def close(self):
@@ -59,18 +66,23 @@ class Ledger:
         digest = hashlib.sha256(encoded.encode()).hexdigest()
         if len(encoded) > 262144:
             raise ValueError("Plan too large")
-        with self.lock, self.db:
+        with self.lock:
             row = self.db.execute("SELECT * FROM jobs WHERE scope=? AND request_key=?", (scope, request_key)).fetchone()
             if row:
                 if row["digest"] != digest:
                     raise Conflict("Idempotency key reused for another payload")
-                return self._public(row)
+                return self.get(scope, row["id"])
             self.snapshot(scope)
+            blocker = self.edit_blocker(scope)
+            if blocker and blocker["status"] == "unknown_outcome":
+                raise Conflict(f"Edits blocked by job {blocker['job_id']} (unknown_outcome). "
+                               "Check that job and reconcile its outcome before submitting new edits.")
             if self.db.execute("SELECT COUNT(*) FROM jobs WHERE scope=? AND status='queued'", (scope,)).fetchone()[0] >= 32:
                 raise Conflict("Pending job capacity reached")
             identifier = secrets.token_hex(16)
-            self.db.execute("INSERT INTO jobs(id,scope,request_key,digest,payload,status,created) VALUES(?,?,?,?,?,'queued',?)",
-                            (identifier, scope, request_key, digest, encoded, self.clock()))
+            with self.db:
+                self.db.execute("INSERT INTO jobs(id,scope,request_key,digest,payload,status,created) VALUES(?,?,?,?,?,'queued',?)",
+                                (identifier, scope, request_key, digest, encoded, self.clock()))
             return self.get(scope, identifier)
 
     def retry(self, scope, request_key, plan_digest, preview_digest):
@@ -86,8 +98,18 @@ class Ledger:
             return self._public(row)
 
     def _public(self, row):
-        return {"job_id": row["id"], "status": row["status"],
-                "result": json.loads(row["result"]) if row["result"] else None}
+        result = {"job_id": row["id"], "status": row["status"],
+                  "result": json.loads(row["result"]) if row["result"] else None}
+        if row["status"] == "queued":
+            blocker = self._edit_blocker(row["scope"])
+            if blocker:
+                result["blocked_by"] = blocker
+        if row["status"] == "unknown_outcome":
+            review = self.db.execute("SELECT reviewed_at FROM job_reviews WHERE job_id=? AND receipt=?",
+                                     (row["id"], row["result"] or "")).fetchone()
+            if review:
+                result["operator_reviewed_at"] = review["reviewed_at"]
+        return result
 
     def get(self, scope, identifier):
         with self.lock, self.db:
@@ -101,6 +123,28 @@ class Ledger:
         self.db.execute("UPDATE jobs SET status='unknown_outcome' WHERE scope=? AND status='executing' AND deadline<?",
                         (scope, self.clock()))
 
+    def _edit_blocker(self, scope):
+        row = self.db.execute(f"SELECT id, status FROM jobs WHERE {_EDIT_BLOCKING} "
+                              "ORDER BY CASE status WHEN 'unknown_outcome' THEN 0 ELSE 1 END, created, id LIMIT 1",
+                              (scope,)).fetchone()
+        return {"job_id": row["id"], "status": row["status"]} if row else None
+
+    def edit_blocker(self, scope):
+        with self.lock, self.db:
+            self._expire(scope)
+            return self._edit_blocker(scope)
+
+    def record_operator_review(self, scope, identifier):
+        """Record a local operator's review without modifying the native receipt or replaying a job."""
+        with self.lock, self.db:
+            row = self.db.execute("SELECT status,result FROM jobs WHERE scope=? AND id=?", (scope, identifier)).fetchone()
+            if not row or row["status"] != "unknown_outcome":
+                raise Conflict("Only a job with unknown_outcome can be reviewed")
+            if self.db.execute("SELECT 1 FROM jobs WHERE scope=? AND status IN ('executing','queued')", (scope,)).fetchone():
+                raise Conflict("An edit is executing or queued. Resolve it before recording this review.")
+            self.db.execute("INSERT OR IGNORE INTO job_reviews VALUES (?, ?, ?)",
+                            (identifier, row["result"] or "", self.clock()))
+
     def claim(self, scope, connector):
         with self.lock, self.db:
             model = self.db.execute("SELECT connector FROM models WHERE scope=?", (scope,)).fetchone()
@@ -108,13 +152,14 @@ class Ledger:
                 raise Conflict("Connector is not paired to this scope")
             self._expire(scope)
             # A session cannot accept more edits until every unknown outcome is reconciled.
-            if self.db.execute("SELECT 1 FROM jobs WHERE scope=? AND status IN ('executing','unknown_outcome')", (scope,)).fetchone():
+            if self._edit_blocker(scope):
                 return None
             row = self.db.execute("SELECT * FROM jobs WHERE scope=? AND status='queued' ORDER BY created,id LIMIT 1", (scope,)).fetchone()
             if not row:
                 return None
             lease = secrets.token_hex(24)
-            updated = self.db.execute("UPDATE jobs SET status='executing',lease=?,deadline=? WHERE id=? AND status='queued' AND NOT EXISTS (SELECT 1 FROM jobs WHERE scope=? AND status IN ('executing','unknown_outcome'))",
+            updated = self.db.execute("UPDATE jobs SET status='executing',lease=?,deadline=? WHERE id=? AND status='queued' "
+                                      f"AND NOT EXISTS (SELECT 1 FROM jobs WHERE {_EDIT_BLOCKING})",
                             (lease, self.clock() + 120, row["id"], scope))
             if updated.rowcount != 1:
                 return None

@@ -205,6 +205,8 @@ public final class RuntimeTrial implements IStartup {
                     breakdowns.operationalEntityBlank(oa);
                 if (layer instanceof org.polarsys.capella.core.data.oa.OperationalAnalysis oa)
                     breakdowns.chain(oa, oa.getContainedOperationalActivityPkg().getOwnedOperationalActivities().get(0), "OPD");
+                if (layer instanceof org.polarsys.capella.core.data.oa.OperationalAnalysis oa)
+                    breakdowns.synchronizedStateMachine(oa);
                 if (layer instanceof org.polarsys.capella.core.data.epbs.EPBSArchitecture epbs)
                     breakdowns.epbsBlank(epbs);
             }

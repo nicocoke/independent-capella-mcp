@@ -54,7 +54,7 @@ public final class LabDiagramAdapter implements DiagramAdapter {
         if (found==null) throw new IllegalStateException("Missing mapping "+name);
         return found;
     }
-    public EObject execute(Session session, NativeCommand c, Map<String,EObject> refs) {
+    public Result execute(Session session, NativeCommand c, Map<String,EObject> refs) {
         if (c.recipe().equals("sirius_representation")) {
             EObject target=refs.get(c.get("target"));
             var kind = DiagramKind.valueOf(c.get("kind"));
@@ -63,7 +63,7 @@ public final class LabDiagramAdapter implements DiagramAdapter {
                 !DialectManager.INSTANCE.canCreate(target,desc)) throw new IllegalArgumentException("Incompatible diagram target");
             var rep=RepresentationRecipes.create(session,target,c.get("name"),desc);
             created.add((DDiagram)rep);
-            return rep;
+            return new Result(rep, true);
         }
         if (!(refs.get(c.get("diagram")) instanceof DSemanticDiagram d))
             throw new IllegalArgumentException("Select a loaded supported Capella diagram");
@@ -74,6 +74,11 @@ public final class LabDiagramAdapter implements DiagramAdapter {
         var layer=ModelInventory.architecture(item);
         if (layer==null || layer!=ModelInventory.architecture(d.getTarget()))
             throw new IllegalArgumentException("Element and diagram must belong to the same architecture");
+        if (kind == DiagramKind.MSM) return stateMachineView(session, d, item);
+        return new Result(addView(session, d, kind, item, refs), true);
+    }
+
+    private EObject addView(Session session, DSemanticDiagram d, DiagramKind kind, EObject item, Map<String,EObject> refs) {
         if (kind.isBreakdown()) return breakdownView(session, d, kind, item);
         if (kind.isFlow()) return flowView(session, d, kind, item);
         if (kind == DiagramKind.OAB) return operationalEntityView(session, d, item, refs);
@@ -85,14 +90,6 @@ public final class LabDiagramAdapter implements DiagramAdapter {
             if (item instanceof FunctionalChainInvolvementLink link)
                 return edge(session, d, item, "FC_Exchange",
                     requireView(d, link.getSource()), requireView(d, link.getTarget()));
-        }
-        if (kind == DiagramKind.MSM) {
-            if (item == null || item.eContainer() != d.getTarget()) throw new IllegalArgumentException("Select an element in the diagram region");
-            if (item instanceof State || item instanceof Mode)
-                return node(session, d, item, "MSM_ModeState_Container", d);
-            if (item instanceof StateTransition transition)
-                return edge(session, d, transition, "MSM_Transition",
-                    requireView(d, transition.getSource()), requireView(d, transition.getTarget()));
         }
         if (kind == DiagramKind.EAB && item instanceof ConfigurationItem ci)
             return configurationView(session, d, ci);
@@ -151,6 +148,26 @@ public final class LabDiagramAdapter implements DiagramAdapter {
             link.getLinkEnds().get(0) instanceof PhysicalPort from && link.getLinkEnds().get(1) instanceof PhysicalPort to)
             return edge(session,d,link,"PAB_PhysicalLink",physicalPort(session,d,from),physicalPort(session,d,to));
         throw new IllegalArgumentException("Unsupported element for selected diagram mapping");
+    }
+
+    private static Result stateMachineView(Session session, DSemanticDiagram diagram, EObject item) {
+        boolean isTransition = item instanceof StateTransition;
+        if (!(diagram.getTarget() instanceof Region region) || !(item instanceof State || item instanceof Mode || isTransition) ||
+            !EcoreUtil.isAncestor(region, item))
+            throw new IllegalArgumentException("Select a state, mode or transition in the diagram region");
+
+        // Sirius can already project descendants of composite states and their Regions.
+        // Reuse any matching representation without creating a view or resolving its endpoints.
+        for (var view : diagram.getDiagramElements()) {
+            if (ModelInventory.raw(view, "target") == item && isTransition == (view instanceof DEdge))
+                return new Result(view, false);
+        }
+        if (item.eContainer() != region)
+            throw new IllegalArgumentException("Refresh the diagram in Capella to display nested states or transitions");
+        if (item instanceof StateTransition transition)
+            return new Result(edge(session, diagram, transition, "MSM_Transition",
+                                   requireView(diagram, transition.getSource()), requireView(diagram, transition.getTarget())), true);
+        return new Result(node(session, diagram, item, "MSM_ModeState_Container", diagram), true);
     }
 
     private static boolean isType(EObject object, String type) {

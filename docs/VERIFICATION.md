@@ -1,4 +1,24 @@
-# Verification for 0.9.1
+# Verification
+
+## Claude Desktop extension 0.9.2 and Capella plug-in 0.7.2
+
+| Check | Result |
+|---|---|
+| Offline suite | 118 tests passed. The baseline on 0.9.1 was 113 tests. |
+| Extension 0.9.2 packaged Windows clients | 25 synthetic multi-process checks and 11 packaged stdio lifecycle checks passed. |
+| Plug-in 0.7.2 with Capella 7.1.0 | 273 checks passed using build `0.7.2.202611251139` in a disposable Capella product. |
+| Actual Claude Desktop | The maintainer reported that 0.9.2 exposed an existing edit blocker. The 0.7.2 fix was exercised through the native harness. Acceptance through the full installed Claude Desktop and Capella workflow remains open. |
+
+The 0.9.2 tests cover continued reads during a hold, identification of the blocking job by independent clients, journal persistence, and the operator review path. The original receipt is retained and the review queues no work.
+
+On plug-in 0.7.1, a synthetic synchronized Operational Analysis Mode State Machine diagram already displayed ten nested states and five transitions. A batch of 15 `show_element` operations failed on the diagram-region check. On 0.7.2 the same batch succeeded unsaved without advancing the revision, opening an editor, or replacing a view. A state outside the diagram’s Region subtree was still rejected.
+
+- [0.9.2 multi-process checks](evidence/processes-0.9.2.json)
+- [0.9.2 packaged stdio checks](evidence/packaged-stdio-0.9.2.json)
+- [0.7.1 reproduction](evidence/msm-0.7.1-regression.json)
+- [0.7.2 native assertions](evidence/native-0.7.2.json)
+
+## 0.9.1 preview
 
 | Check | Status |
 |---|---|

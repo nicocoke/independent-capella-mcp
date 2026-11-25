@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
 <modelVersion>4.0.0</modelVersion>
-<groupId>org.example.capella</groupId><artifactId>independent-mcp-parent</artifactId><version>0.7.1-SNAPSHOT</version><packaging>pom</packaging>
+<groupId>org.example.capella</groupId><artifactId>independent-mcp-parent</artifactId><version>0.7.2-SNAPSHOT</version><packaging>pom</packaging>
 <properties><tycho.version>4.0.8</tycho.version><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
 <modules><module>target-platform</module><module>org.example.capella.mcp</module><module>feature</module><module>repository</module></modules>
 <build><plugins>

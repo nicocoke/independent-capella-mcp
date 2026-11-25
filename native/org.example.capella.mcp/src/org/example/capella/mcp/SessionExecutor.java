@@ -46,24 +46,27 @@ public final class SessionExecutor {
         }
         diagrams.preflight(session, commands);
         var changes = new HashMap<String, EObject>();
+        var outcomes = new HashMap<String, EObject>();
         RecordingCommand transaction = new RecordingCommand(domain, "MCP development plan") {
             @Override protected void doExecute() {
                 guard.check(session, expectedRevision);
                 for (NativeCommand command : commands) {
-                    EObject result = command.recipe().startsWith("sirius_")
+                    var outcome = command.recipe().startsWith("sirius_")
                         ? diagrams.execute(session, command, bindings)
-                        : SemanticRecipes.execute(command, bindings);
+                        : new DiagramAdapter.Result(SemanticRecipes.execute(command, bindings), true);
+                    EObject result = outcome.object();
                     if (result == null) throw new IllegalStateException("Recipe produced no result");
                     bindings.put(command.get("id"), result);
-                    changes.put(command.get("id"), result);
+                    outcomes.put(command.get("id"), result);
+                    if (outcome.changed()) changes.put(command.get("id"), result);
                 }
-                guard.validate(session, Map.copyOf(changes));
+                if (!changes.isEmpty()) guard.validate(session, Map.copyOf(changes));
             }
         };
         if (!(domain.getCommandStack() instanceof TransactionalCommandStack stack))
             throw new IllegalStateException("Transactional stack required");
         // Overload propagates rollback failures; never disable transaction validation.
         stack.execute(transaction, Map.of());
-        return Map.copyOf(changes);
+        return Map.copyOf(outcomes);
     }
 }

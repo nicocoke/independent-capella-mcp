@@ -24,7 +24,7 @@ from relay.store import Ledger, Conflict
 SCOPE = "local-session"
 CONNECTOR = "local-capella"
 FORMAT = "capella-local-bridge/1"
-INSTRUCTIONS = "Call capella_connection first. Only the explicitly paired Capella session is editable. Read capella_snapshot before preparing a plan; use its model_id and revision and advertised aliases. Prepare then submit with the exact preview_digest and a unique request_id. A queued job is not success: poll capella_job until terminal. succeeded_unsaved means Capella has changed but the user must save. Never automatically resubmit an unknown_outcome with a new request_id."
+INSTRUCTIONS = "Call capella_connection first. Only the explicitly paired Capella session is editable. Read capella_snapshot before preparing a plan; use its model_id and revision and advertised aliases. Prepare then submit with the exact preview_digest and a unique request_id. A queued job is not success: poll capella_job until terminal. succeeded_unsaved means Capella has changed but the user must save. If an edit blocker has unknown_outcome, report the blocking job ID and stop submitting edits. Never automatically resubmit an unknown_outcome with a new request_id."
 
 
 def strict_json(data):
@@ -201,7 +201,7 @@ class LocalTools:
 
     @staticmethod
     def catalogue():
-        return [{"name": "capella_connection", "description": "Show local pairing instructions and connection file path. Contains no credential.",
+        return [{"name": "capella_connection", "description": "Show local pairing status, connection file path and any job blocking edits. Contains no credential.",
                  "inputSchema": {"type": "object", "properties": {}, "required": [], "additionalProperties": False}}] + native_catalogue()
 
     def call(self, name, arguments):
@@ -209,15 +209,18 @@ class LocalTools:
             return self.native.call(name, arguments)
         if not isinstance(arguments, dict) or arguments:
             return {"content": [{"type": "text", "text": "This tool takes no arguments"}], "isError": True}
-        try:
-            snapshot = self.bridge.ledger.snapshot(SCOPE)
-            connected = True
-        except Conflict:
-            snapshot, connected = None, False
+        with self.bridge.ledger.lock:
+            try:
+                snapshot = self.bridge.ledger.snapshot(SCOPE)
+                connected = True
+            except Conflict:
+                snapshot, connected = None, False
+            blocker = self.bridge.ledger.edit_blocker(SCOPE)
         result = {"connected": connected, "connection_file": str(self.bridge.profile),
                   "transport": "local stdio with authenticated IPv4 loopback connector",
                   "instructions": "In Capella select an architecture root or a logical component in the semantic tree, run Start / Stop Independent MCP (Development), and select this connection file. Use a disposable model for initial acceptance. Changes remain unsaved.",
-                  "session_epoch": snapshot["session_epoch"] if snapshot else None}
+                  "session_epoch": snapshot["session_epoch"] if snapshot else None,
+                  "edit_blocker": blocker}
         return {"content": [{"type": "text", "text": json.dumps(result)}], "structuredContent": result, "isError": False}
 
 
@@ -285,7 +288,7 @@ class LocalBridge:
 
     def protocol(self):
         return Protocol(LocalTools(self), LocalTools.catalogue,
-                        server_info={"name": "independent-capella-local", "version": "0.9.1"},
+                        server_info={"name": "independent-capella-local", "version": "0.9.2"},
                         instructions=INSTRUCTIONS)
 
     def __exit__(self, *arguments):
@@ -331,7 +334,7 @@ class SharedBridge:
 
     def protocol(self):
         return Protocol(self, LocalTools.catalogue,
-                        server_info={"name": "independent-capella-local", "version": "0.9.1"},
+                        server_info={"name": "independent-capella-local", "version": "0.9.2"},
                         instructions=INSTRUCTIONS)
 
     def call(self, name, arguments):
